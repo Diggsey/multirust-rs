@@ -4,7 +4,7 @@ use std::io;
 use std::ops;
 use std::path::{Path, PathBuf};
 
-pub use anyhow::{Context, Result};
+pub(crate) use anyhow::{Context, Result};
 use thiserror::Error as ThisError;
 
 use crate::utils::notify::NotificationLevel;
@@ -12,7 +12,7 @@ use crate::utils::raw;
 use crate::utils::utils;
 
 #[derive(Debug, ThisError)]
-pub enum Error {
+pub(crate) enum Error {
     #[error("could not create temp root {}" ,.0.display())]
     CreatingRoot(PathBuf),
     #[error("could not create temp file {}",.0.display())]
@@ -32,12 +32,12 @@ pub enum Notification<'a> {
 
 pub struct Cfg {
     root_directory: PathBuf,
-    pub dist_server: String,
+    pub(crate) dist_server: String,
     notify_handler: Box<dyn Fn(Notification<'_>)>,
 }
 
 #[derive(Debug)]
-pub struct Dir<'a> {
+pub(crate) struct Dir<'a> {
     cfg: &'a Cfg,
     path: PathBuf,
 }
@@ -102,14 +102,14 @@ impl Cfg {
         }
     }
 
-    pub fn create_root(&self) -> Result<bool> {
+    pub(crate) fn create_root(&self) -> Result<bool> {
         raw::ensure_dir_exists(&self.root_directory, |p| {
             (self.notify_handler)(Notification::CreatingRoot(p));
         })
         .with_context(|| Error::CreatingRoot(PathBuf::from(&self.root_directory)))
     }
 
-    pub fn new_directory(&self) -> Result<Dir<'_>> {
+    pub(crate) fn new_directory(&self) -> Result<Dir<'_>> {
         self.create_root()?;
 
         loop {
@@ -135,7 +135,7 @@ impl Cfg {
         self.new_file_with_ext("", "")
     }
 
-    pub fn new_file_with_ext(&self, prefix: &str, ext: &str) -> Result<File<'_>> {
+    pub(crate) fn new_file_with_ext(&self, prefix: &str, ext: &str) -> Result<File<'_>> {
         self.create_root()?;
 
         loop {
@@ -157,7 +157,7 @@ impl Cfg {
         }
     }
 
-    pub fn clean(&self) {
+    pub(crate) fn clean(&self) {
         utils::delete_dir_contents(&self.root_directory);
     }
 }

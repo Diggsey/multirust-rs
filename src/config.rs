@@ -229,20 +229,20 @@ impl Display for PgpPublicKey {
 pub const UNIX_FALLBACK_SETTINGS: &str = "/etc/rustup/settings.toml";
 
 pub struct Cfg {
-    pub profile_override: Option<dist::Profile>,
+    pub(crate) profile_override: Option<dist::Profile>,
     pub rustup_dir: PathBuf,
     pub settings_file: SettingsFile,
     pub fallback_settings: Option<FallbackSettings>,
     pub toolchains_dir: PathBuf,
     pub update_hash_dir: PathBuf,
     pub download_dir: PathBuf,
-    pub temp_cfg: temp::Cfg,
+    pub(crate) temp_cfg: temp::Cfg,
     pgp_keys: Vec<PgpPublicKey>,
     pub toolchain_override: Option<String>,
     pub env_override: Option<String>,
     pub dist_root_url: String,
     pub dist_root_server: String,
-    pub notify_handler: Arc<dyn Fn(Notification<'_>)>,
+    pub(crate) notify_handler: Arc<dyn Fn(Notification<'_>)>,
 }
 
 impl Cfg {
@@ -376,7 +376,7 @@ impl Cfg {
         &self.pgp_keys
     }
 
-    pub fn set_profile_override(&mut self, profile: dist::Profile) {
+    pub(crate) fn set_profile_override(&mut self, profile: dist::Profile) {
         self.profile_override = Some(profile);
     }
 
@@ -429,7 +429,7 @@ impl Cfg {
     // if there is no profile in the settings file. The last variant happens when
     // a user upgrades from a version of Rustup without profiles to a version of
     // Rustup with profiles.
-    pub fn get_profile(&self) -> Result<dist::Profile> {
+    pub(crate) fn get_profile(&self) -> Result<dist::Profile> {
         if let Some(p) = self.profile_override {
             return Ok(p);
         }
@@ -986,7 +986,7 @@ impl Cfg {
         })
     }
 
-    pub fn get_default_host_triple(&self) -> Result<dist::TargetTriple> {
+    pub(crate) fn get_default_host_triple(&self) -> Result<dist::TargetTriple> {
         Ok(self
             .settings_file
             .with(|s| {

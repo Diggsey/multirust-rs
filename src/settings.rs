@@ -77,7 +77,7 @@ pub struct Settings {
     pub version: String,
     pub default_host_triple: Option<String>,
     pub default_toolchain: Option<String>,
-    pub profile: Option<Profile>,
+    pub(crate) profile: Option<Profile>,
     pub overrides: BTreeMap<String, String>,
     pub pgp_keys: Option<String>,
     pub auto_self_update: Option<SelfUpdateMode>,
