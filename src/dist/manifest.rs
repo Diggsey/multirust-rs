@@ -26,12 +26,12 @@ pub(crate) const SUPPORTED_MANIFEST_VERSIONS: [&str; 1] = ["2"];
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Manifest {
-    pub(crate) manifest_version: String,
-    pub(crate) date: String,
+    manifest_version: String,
+    pub date: String,
     pub packages: HashMap<String, Package>,
     pub renames: HashMap<String, String>,
     pub reverse_renames: HashMap<String, String>,
-    pub(crate) profiles: HashMap<Profile, Vec<String>>,
+    profiles: HashMap<Profile, Vec<String>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]

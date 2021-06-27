@@ -229,20 +229,20 @@ impl Display for PgpPublicKey {
 pub const UNIX_FALLBACK_SETTINGS: &str = "/etc/rustup/settings.toml";
 
 pub struct Cfg {
-    pub(crate) profile_override: Option<dist::Profile>,
+    profile_override: Option<dist::Profile>,
     pub rustup_dir: PathBuf,
     pub settings_file: SettingsFile,
     pub fallback_settings: Option<FallbackSettings>,
     pub toolchains_dir: PathBuf,
     pub update_hash_dir: PathBuf,
     pub download_dir: PathBuf,
-    pub(crate) temp_cfg: temp::Cfg,
+    pub temp_cfg: temp::Cfg,
     pgp_keys: Vec<PgpPublicKey>,
     pub toolchain_override: Option<String>,
     pub env_override: Option<String>,
     pub dist_root_url: String,
     pub dist_root_server: String,
-    pub(crate) notify_handler: Arc<dyn Fn(Notification<'_>)>,
+    pub notify_handler: Arc<dyn Fn(Notification<'_>)>,
 }
 
 impl Cfg {
