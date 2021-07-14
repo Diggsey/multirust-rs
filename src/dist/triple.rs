@@ -47,14 +47,14 @@ static LIST_ENVS: &[&str] = &[
 ];
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct PartialTargetTriple {
-    pub arch: Option<String>,
-    pub os: Option<String>,
-    pub env: Option<String>,
+pub(crate) struct PartialTargetTriple {
+    pub(crate) arch: Option<String>,
+    pub(crate) os: Option<String>,
+    pub(crate) env: Option<String>,
 }
 
 impl PartialTargetTriple {
-    pub fn new(name: &str) -> Option<Self> {
+    pub(crate) fn new(name: &str) -> Option<Self> {
         if name.is_empty() {
             return Some(Self {
                 arch: None,
